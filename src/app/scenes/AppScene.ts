@@ -13,7 +13,7 @@
 import * as THREE from "three";
 import { DrawRenderer } from "../renderer/DrawRenderer";
 import { AppRenderer } from "../renderer/AppRenderer";
-import { ImageSource } from "@nativescript/core";
+import { ApplicationSettings } from "@nativescript/core";
 import "@nativescript/canvas-media";
 
 export class AppScene extends THREE.Scene {
@@ -112,8 +112,7 @@ export class AppScene extends THREE.Scene {
    */
   private loadControlsFromSettings() {
     try {
-      const settings = require('@nativescript/core/application-settings');
-      const saved = settings.getString('thermalControls');
+      const saved = ApplicationSettings.getString('thermalControls');
       if (saved) {
         const controls = JSON.parse(saved);
         // Update parameters with saved values
