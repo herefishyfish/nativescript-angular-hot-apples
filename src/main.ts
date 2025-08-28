@@ -12,6 +12,7 @@ import { AppComponent } from './app/app.component';
 import { Canvas } from '@nativescript/canvas';
 import '@nativescript/canvas-polyfill';
 import '@nativescript/canvas-three';
+import { Utils } from '@nativescript/core';
 
 // Canvas.forceGL = true;
 Canvas.useSurface = true;
@@ -21,6 +22,9 @@ registerElement("Slider", () => require("./app/ui/slider/index").Slider);
 
 runNativeScriptAngularApp({
   appModuleBootstrap: () => {
+    if (__APPLE__) {
+      Utils.ios.setWindowBackgroundColor('#000');
+    }
     return bootstrapApplication(AppComponent, {
       providers: [
         provideNativeScriptHttpClient(withInterceptorsFromDi()),
