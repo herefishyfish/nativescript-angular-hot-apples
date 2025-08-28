@@ -13,8 +13,8 @@ import { filter } from 'rxjs/operators';
     <ActionBar title="Apple Event Logo Animation" class="action-bar">
       <ActionItem text="Controls" (tap)="openControls()" ios.position="right" android.position="actionBar"></ActionItem>
     </ActionBar>
-    <GridLayout backgroundColor="#0c0c0c">
-      <Canvas backgroundColor="#0c0c0c" width="100%" height="100%" (ready)="onCanvasReady($event)" (touch)="onTouch($event)"></Canvas>
+    <GridLayout backgroundColor="#000000">
+      <Canvas backgroundColor="#000000" width="100%" height="100%" (ready)="onCanvasReady($event)" (touch)="onTouch($event)"></Canvas>
     </GridLayout>
   `,
   imports: [NativeScriptCommonModule],

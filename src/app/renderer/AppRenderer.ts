@@ -22,7 +22,7 @@ export class AppRenderer {
 
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.setSize(width, height, false);
-    this.renderer.setClearColor(0x0c0c0c, 1);
+    this.renderer.setClearColor(0x000000, 1);
 
     this.startRenderLoop();
   }
