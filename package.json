@@ -3,9 +3,6 @@
   "main": "./src/main.ts",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "postinstall": "npx patch-package"
-  },
   "dependencies": {
     "@angular/animations": "~20.0.0",
     "@angular/common": "~20.0.0",
@@ -16,10 +13,10 @@
     "@angular/platform-browser-dynamic": "~20.0.0",
     "@angular/router": "~20.0.0",
     "@nativescript/angular": "^20.0.0",
-    "@nativescript/canvas": "2.0.0-rc.20",
-    "@nativescript/canvas-media": "2.0.0-rc.20",
-    "@nativescript/canvas-polyfill": "2.0.0-rc.20",
-    "@nativescript/canvas-three": "2.0.0-rc.20",
+    "@nativescript/canvas": "rc",
+    "@nativescript/canvas-media": "rc",
+    "@nativescript/canvas-polyfill": "rc",
+    "@nativescript/canvas-three": "rc",
     "@nativescript/core": "~8.9.0",
     "rxjs": "~7.8.0",
     "three": "^0.179.1",
