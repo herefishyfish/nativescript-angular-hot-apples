@@ -183,11 +183,12 @@ export class AppScene extends THREE.Scene {
   async loadAssets(width: number, height: number) {
     // Load the Apple logo mask texture from assets
     this.maskTexture = new THREE.TextureLoader().load(
-      __ANDROID__
-        ? "~/assets/logo_1756270548_img_1.png"
-        : "~/assets/ns-glow.png" 
-        // Apple logo:
-        // "~/assets/logo__dcojfwkzna2q.png"
+      // __ANDROID__
+      // ? "~/assets/logo_1756270548_img_1.png"
+      // :
+      "~/assets/ns-glow.png"
+      // Apple logo:
+      // "~/assets/logo__dcojfwkzna2q.png"
     );
     // Create video element using NativeScript canvas-media
 

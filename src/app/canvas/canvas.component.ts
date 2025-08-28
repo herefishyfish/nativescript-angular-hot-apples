@@ -1,7 +1,7 @@
 import { Component, inject, NO_ERRORS_SCHEMA, OnDestroy } from "@angular/core";
 import { NativeDialog, NativeScriptCommonModule } from "@nativescript/angular";
 import { Canvas } from "@nativescript/canvas";
-import { Screen } from "@nativescript/core";
+import { Color, Page, Screen } from "@nativescript/core";
 import { AppRenderer } from "../renderer/AppRenderer";
 import { AppScene } from "../scenes/AppScene";
 import { ControlsComponent } from "../controls/controls.component";
@@ -55,6 +55,15 @@ export class CanvasComponent implements OnDestroy {
   private appRenderer?: AppRenderer;
   private appScene?: AppScene;
   private canvas?: Canvas;
+  private page = inject(Page);
+
+  constructor() {
+    // Set black status bar on android
+    if (__ANDROID__) {
+       this.page.androidStatusBarBackground = new Color("#000000");
+    }
+  }
+
 
   openControls() {
     this.appScene.pause();
