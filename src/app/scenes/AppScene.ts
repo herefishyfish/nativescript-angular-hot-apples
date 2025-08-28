@@ -112,19 +112,25 @@ export class AppScene extends THREE.Scene {
    */
   private loadControlsFromSettings() {
     try {
-      const saved = ApplicationSettings.getString('thermalControls');
+      const saved = ApplicationSettings.getString("thermalControls");
       if (saved) {
         const controls = JSON.parse(saved);
         // Update parameters with saved values
-        this.parameters.effectIntensity = controls.effectIntensity || this.parameters.effectIntensity;
-        this.parameters.colorSaturation = controls.colorSaturation || this.parameters.colorSaturation;
-        this.parameters.heatSensitivity = controls.heatSensitivity || this.parameters.heatSensitivity;
-        this.parameters.heatDecay = controls.heatDecay || this.parameters.heatDecay;
-        this.parameters.interactionRadius = controls.interactionRadius || this.parameters.interactionRadius;
-        this.parameters.gradientShift = controls.gradientShift || this.parameters.gradientShift;
+        this.parameters.effectIntensity =
+          controls.effectIntensity || this.parameters.effectIntensity;
+        this.parameters.colorSaturation =
+          controls.colorSaturation || this.parameters.colorSaturation;
+        this.parameters.heatSensitivity =
+          controls.heatSensitivity || this.parameters.heatSensitivity;
+        this.parameters.heatDecay =
+          controls.heatDecay || this.parameters.heatDecay;
+        this.parameters.interactionRadius =
+          controls.interactionRadius || this.parameters.interactionRadius;
+        this.parameters.gradientShift =
+          controls.gradientShift || this.parameters.gradientShift;
       }
     } catch (error) {
-      console.log('Could not load controls:', error);
+      console.log("Could not load controls:", error);
     }
   }
 
@@ -166,7 +172,6 @@ export class AppScene extends THREE.Scene {
       this.blendVideo.value = 0.5; // Start more visible
       this.blendVideo.target = 1; // Show video texture
       this.textureReady = true;
-
     } catch (error) {
       console.error("Error initializing AppScene:", error);
     }
@@ -178,7 +183,11 @@ export class AppScene extends THREE.Scene {
   async loadAssets(width: number, height: number) {
     // Load the Apple logo mask texture from assets
     this.maskTexture = new THREE.TextureLoader().load(
-      __ANDROID__ ? "~/assets/logo_1756270548_img_1.png" : "~/assets/logo__dcojfwkzna2q.png"
+      __ANDROID__
+        ? "~/assets/logo_1756270548_img_1.png"
+        : "~/assets/ns-glow.png" 
+        // Apple logo:
+        // "~/assets/logo__dcojfwkzna2q.png"
     );
     // Create video element using NativeScript canvas-media
 
@@ -191,9 +200,24 @@ export class AppScene extends THREE.Scene {
     this.video.loop = true;
     this.video.width = width;
     this.video.height = height;
-    this.video.src = __ANDROID__ ? "~/assets/largetall_2x.mp4" : "~/assets/apple-3000.mp4";
+    this.video.src = __ANDROID__
+      ? "~/assets/largetall_2x.mp4"
+      : "~/assets/apple-3000.mp4";
 
     this.onVideoReady();
+  }
+
+  pause() {
+    if (this.video) {
+      this.video.pause();
+    }
+  }
+
+  replay() {
+    if (this.video) {
+      this.videoReady = false;
+      this.init();
+    }
   }
 
   /**
@@ -205,7 +229,7 @@ export class AppScene extends THREE.Scene {
 
     // Create Three.js video texture from HTML video element
     this.videoTexture = new THREE.VideoTexture(this.video);
-    
+
     // this.videoTexture.minFilter = THREE.LinearFilter;
     // this.videoTexture.magFilter = THREE.LinearFilter;
     // this.videoTexture.format = THREE.RGBFormat;
@@ -217,7 +241,7 @@ export class AppScene extends THREE.Scene {
     this.textureReady = true;
 
     // Update UI state and start video playback
-    this.video.play();//.catch(() => {});
+    this.video.play();
     // this.mediaButtonState(); // Set initial button text
   }
 
@@ -629,8 +653,8 @@ export class AppScene extends THREE.Scene {
       u.opacity.value = this.move.value;
       u.power.value = this.parameters.contrastPower;
       u.amount.value = this.amount.value;
-			u.blendVideo.value = this.parameters.videoBlendAmount;
-			if (this.videoTexture) u.textureMap.value = this.videoTexture;
+      u.blendVideo.value = this.parameters.videoBlendAmount;
+      if (this.videoTexture) u.textureMap.value = this.videoTexture;
 
       // Update controllable parameters
       u.effectIntensity.value = this.parameters.effectIntensity;
