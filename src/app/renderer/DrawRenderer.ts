@@ -1,22 +1,22 @@
-import * as THREE from 'three'
+import * as THREE from "three";
 
 export interface DrawRendererOptions {
-  radiusRatio?: number
-  isMobile?: boolean
+  radiusRatio?: number;
+  isMobile?: boolean;
 }
 
 export class DrawRenderer {
-  camera: THREE.OrthographicCamera
-  renderTargetA: THREE.WebGLRenderTarget
-  renderTargetB: THREE.WebGLRenderTarget
-  material: THREE.ShaderMaterial
-  scene: THREE.Scene
-  options: DrawRendererOptions
+  camera: THREE.OrthographicCamera;
+  renderTargetA: THREE.WebGLRenderTarget;
+  renderTargetB: THREE.WebGLRenderTarget;
+  material: THREE.ShaderMaterial;
+  scene: THREE.Scene;
+  options: DrawRendererOptions;
 
   constructor(size = 256, options: DrawRendererOptions = {}) {
-    this.options = options
-    this.camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, -1, 1)
-    this.camera.position.z = 1
+    this.options = options;
+    this.camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, -1, 1);
+    this.camera.position.z = 1;
 
     const rtOpts: THREE.RenderTargetOptions = {
       type: THREE.HalfFloatType,
@@ -26,11 +26,11 @@ export class DrawRenderer {
       stencilBuffer: false,
       magFilter: THREE.LinearFilter,
       minFilter: THREE.LinearMipmapLinearFilter,
-      generateMipmaps: true
-    }
+      generateMipmaps: true,
+    };
 
-    this.renderTargetA = new THREE.WebGLRenderTarget(size, size, rtOpts)
-    this.renderTargetB = new THREE.WebGLRenderTarget(size, size, rtOpts)
+    this.renderTargetA = new THREE.WebGLRenderTarget(size, size, rtOpts);
+    this.renderTargetB = new THREE.WebGLRenderTarget(size, size, rtOpts);
 
     this.material = new THREE.ShaderMaterial({
       uniforms: {
@@ -41,7 +41,7 @@ export class DrawRenderer {
         uTexture: { value: null },
         uSizeDamping: { value: 0.8 },
         uFadeDamping: { value: 0.98 },
-        uDraw: { value: 0 }
+        uDraw: { value: 0 },
       },
       vertexShader: `
         precision highp float; 
@@ -83,61 +83,64 @@ export class DrawRenderer {
         }
       `,
       depthTest: false,
-      transparent: true
-    })
+      transparent: true,
+    });
 
-    this.scene = new THREE.Scene()
-    this.scene.add(new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.material))
+    this.scene = new THREE.Scene();
+    this.scene.add(
+      new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.material)
+    );
   }
 
-  updateRadius(px = 0) { 
-    this.material.uniforms.uRadius.value.z = px 
+  updateRadius(px = 0) {
+    this.material.uniforms.uRadius.value.z = px;
   }
-  
-  updateDraw(v = 0) { 
-    (this.material.uniforms.uDraw.value as number) = v 
+
+  updateDraw(v = 0) {
+    (this.material.uniforms.uDraw.value as number) = v;
   }
-  
-  updatePosition(p: { x: number, y: number }, normalized = false) {
-    let x = p.x, y = p.y
-    if (normalized) { 
-      x = 0.5 * p.x + 0.5
-      y = 0.5 * p.y + 0.5 
+
+  updatePosition(p: { x: number; y: number }, normalized = false) {
+    let x = p.x,
+      y = p.y;
+    if (normalized) {
+      x = 0.5 * p.x + 0.5;
+      y = 0.5 * p.y + 0.5;
     }
-    this.material.uniforms.uPosition.value.set(x, y)
+    this.material.uniforms.uPosition.value.set(x, y);
   }
-  
-  updateDirection(d: { x: number, y: number }) { 
-    this.material.uniforms.uDirection.value.set(d.x, d.y, 0, 100) 
+
+  updateDirection(d: { x: number; y: number }) {
+    this.material.uniforms.uDirection.value.set(d.x, d.y, 0, 100);
   }
-  
+
   resize(w: number, h: number) {
-    const ratio = h / (this.options.radiusRatio ?? 1000)
+    const ratio = h / (this.options.radiusRatio ?? 1000);
     // Reduced mobile radius to match web interaction size better
-    const radius = (this.options.isMobile ? 240 : 240) * ratio
-    this.updateRadius(radius)
-    this.material.uniforms.uResolution.value.set(w, h, 1)
+    const radius = (this.options.isMobile ? 240 : 240) * ratio;
+    this.updateRadius(radius);
+    this.material.uniforms.uResolution.value.set(w, h, 1);
   }
-  
-  getTexture() { 
-    return this.renderTargetB.texture 
+
+  getTexture() {
+    return this.renderTargetB.texture;
   }
-  
+
   render(renderer: THREE.WebGLRenderer) {
-    this.material.uniforms.uTexture.value = this.renderTargetB.texture
-    const prev = renderer.getRenderTarget()
-    renderer.setRenderTarget(this.renderTargetA)
-    if (renderer.autoClear) renderer.clear()
-    renderer.render(this.scene, this.camera)
-    renderer.setRenderTarget(prev)
-    const tmp = this.renderTargetA
-    this.renderTargetA = this.renderTargetB
-    this.renderTargetB = tmp
+    this.material.uniforms.uTexture.value = this.renderTargetB.texture;
+    const prev = renderer.getRenderTarget();
+    renderer.setRenderTarget(this.renderTargetA);
+    if (renderer.autoClear) renderer.clear();
+    renderer.render(this.scene, this.camera);
+    renderer.setRenderTarget(prev);
+    const tmp = this.renderTargetA;
+    this.renderTargetA = this.renderTargetB;
+    this.renderTargetB = tmp;
   }
 
   dispose() {
-    this.renderTargetA.dispose()
-    this.renderTargetB.dispose()
-    this.material.dispose()
+    this.renderTargetA.dispose();
+    this.renderTargetB.dispose();
+    this.material.dispose();
   }
 }

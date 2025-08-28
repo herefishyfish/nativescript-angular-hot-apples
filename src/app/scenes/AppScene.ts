@@ -191,7 +191,7 @@ export class AppScene extends THREE.Scene {
     this.video.loop = true;
     this.video.width = width;
     this.video.height = height;
-    this.video.src = "~/assets/largetall_2x.mp4";
+    this.video.src = __ANDROID__ ? "~/assets/largetall_2x.mp4" : "~/assets/apple-3000.mp4";
 
     this.onVideoReady();
   }

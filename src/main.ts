@@ -12,7 +12,6 @@ import { AppComponent } from './app/app.component';
 import { Canvas } from '@nativescript/canvas';
 import '@nativescript/canvas-polyfill';
 import '@nativescript/canvas-three';
-import { Slider } from './app/ui/slider/index.android';
 
 // Canvas.forceGL = true;
 Canvas.useSurface = true;
